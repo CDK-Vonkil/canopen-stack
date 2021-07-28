@@ -151,12 +151,14 @@ void CONodeProcess(CO_NODE *node)
         allowed = node->Nmt.Allowed;
     }
 
-    result = COLssCheck(&node->Lss, &frm);
-    if (result != 0) {
-        if (result > 0) {
-            (void)COIfCanSend(&node->If, &frm);
+    if (result > 0) {
+        result = COLssCheck(&node->Lss, &frm);
+        if (result != 0) {
+            if (result > 0) {
+              (void)COIfCanSend(&node->If, &frm);
+            }
+            allowed = 0;
         }
-        allowed = 0;
     }
 
     if ((allowed & CO_SDO_ALLOWED) != 0) {

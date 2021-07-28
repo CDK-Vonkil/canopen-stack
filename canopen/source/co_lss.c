@@ -45,7 +45,8 @@ static const CO_LSS_MAP COLssServices[CO_LSS_MAX_SID] = {
     {  73 , CO_LSS_WAIT | CO_LSS_CONF, COLssIdentifyRemoteSlave_RevMax },
     {  74 , CO_LSS_WAIT | CO_LSS_CONF, COLssIdentifyRemoteSlave_SerMin },
     {  75 , CO_LSS_WAIT | CO_LSS_CONF, COLssIdentifyRemoteSlave_SerMax },
-    {  76 , CO_LSS_WAIT | CO_LSS_CONF, COLssNonConfiguredRemoteSlave }
+    {  76 , CO_LSS_WAIT | CO_LSS_CONF, COLssNonConfiguredRemoteSlave },
+    { 129 , CO_LSS_WAIT              , COLssFastScan },
 };
 
 static const uint32_t CO_LssBaudTbl[CO_LSS_MAX_BAUD] = {
@@ -506,4 +507,49 @@ int16_t COLssNonConfiguredRemoteSlave(CO_LSS *lss, CO_IF_FRM *frm)
         result = 1;
     }
     return result;
+}
+
+int16_t COLssFastScan(CO_LSS *lss, CO_IF_FRM *frm)
+{
+    int16_t retval = -1;
+
+    // "Only un-configured LSS slaves with node ID equal to FFh shall partitipcate in LSS Fastscan"
+    if (lss->Node->NodeId == 0xff) {
+        uint8_t BitChecked = CO_GET_BYTE(frm, 5);
+
+        if (BitChecked == 0x80) {
+            lss->Pos = 0;
+            retval = 1;
+        }
+        else {
+            uint32_t applyVal;
+            uint32_t IDNumber  = CO_GET_LONG(frm, 1);
+            uint8_t  LSSSub    = CO_GET_BYTE(frm, 6);
+            uint32_t applyMask = 0xffffffff << BitChecked;
+            CO_ERR   err       = CODictRdLong(&lss->Node->Dict, CO_DEV(0x1018, 1+LSSSub), &applyVal);
+
+            if ((LSSSub == lss->Pos) && (err == CO_ERR_NONE) &&
+                (0 == ((applyVal ^ IDNumber) & applyMask))) {
+                uint8_t LSSNext = CO_GET_BYTE(frm, 7);
+                lss->Pos = LSSNext;
+
+                if ((BitChecked == 0x00) && (LSSNext < LSSSub)) {
+                    lss->Mode = CO_LSS_CONF;
+                }
+                retval = 1;
+            }
+            else {
+                retval = 0;
+            }
+        }
+
+        if (retval > 0) { // populate "LSS identify slave"
+            CO_SET_LONG(frm, 0L, 0);
+            CO_SET_LONG(frm, 0L, 4);
+            CO_SET_BYTE(frm, CO_LSS_RES_UNCONF, 0);
+            CO_SET_ID(frm, CO_LSS_TX_ID);
+        }
+    }
+
+    return retval;
 }

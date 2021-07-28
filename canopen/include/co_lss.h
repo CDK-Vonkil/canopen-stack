@@ -31,7 +31,7 @@ extern "C" {
 * PUBLIC DEFINES
 ******************************************************************************/
 
-#define CO_LSS_MAX_SID           21       /*!< number of LSS services        */
+#define CO_LSS_MAX_SID           22       /*!< number of LSS services        */
 #define CO_LSS_MAX_BAUD          10       /*!< number of standard baudrates  */
 
 #define CO_LSS_RX_ID           2021       /*!< LSS request identifier        */
@@ -81,6 +81,7 @@ typedef struct CO_LSS_T {
     uint8_t           Mode;          /* mode of layer setting service slave  */
     uint8_t           Step;          /* LSS address selection step           */
     uint8_t           Flags;         /* event flags                          */
+    uint8_t           Pos;           /* LSSPos as per fast-scan              */
 
 } CO_LSS;
 
@@ -139,6 +140,7 @@ int16_t COLssIdentifyRemoteSlave_RevMax(CO_LSS *lss, CO_IF_FRM *frm);
 int16_t COLssIdentifyRemoteSlave_SerMin(CO_LSS *lss, CO_IF_FRM *frm);
 int16_t COLssIdentifyRemoteSlave_SerMax(CO_LSS *lss, CO_IF_FRM *frm);
 int16_t COLssNonConfiguredRemoteSlave(CO_LSS *lss, CO_IF_FRM *frm);
+int16_t COLssFastScan(CO_LSS *lss, CO_IF_FRM *frm);
 
 /******************************************************************************
 * CALLBACK FUNCTIONS
