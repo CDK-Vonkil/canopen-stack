@@ -46,7 +46,7 @@ static const CO_LSS_MAP COLssServices[CO_LSS_MAX_SID] = {
     {  74 , CO_LSS_WAIT | CO_LSS_CONF, COLssIdentifyRemoteSlave_SerMin },
     {  75 , CO_LSS_WAIT | CO_LSS_CONF, COLssIdentifyRemoteSlave_SerMax },
     {  76 , CO_LSS_WAIT | CO_LSS_CONF, COLssNonConfiguredRemoteSlave },
-    {  81 , CO_LSS_WAIT              , COLssFastScan },
+    { 129 , CO_LSS_WAIT              , COLssFastScan },
 };
 
 static const uint32_t CO_LssBaudTbl[CO_LSS_MAX_BAUD] = {
