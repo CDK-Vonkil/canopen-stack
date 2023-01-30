@@ -37,7 +37,7 @@ extern "C" {
     
 #define CO_TEMCY      (CO_OBJ_TYPE *)&COTEmcy  /*!< Object Type EMCY History */
 
-#define CO_EMCY_STORAGE  (1+((CO_EMCY_N-1)/8))  /*!< bytes for CO_EMCY_N bit */
+#define CO_EMCY_STORAGE  ((CO_EMCY_N+7)/8)  /*!< bytes for CO_EMCY_N bit */
 
 /*! \brief EMCY CODE
 *
@@ -177,7 +177,7 @@ typedef struct CO_EMCY_T {
 * \param usr
 *    manufacturer specific fields in EMCY history and/or EMCY message
 */
-void COEmcySet(CO_EMCY *emcy, uint8_t err, CO_EMCY_USR *usr);
+void COEmcySet(CO_EMCY *emcy, unsigned err, CO_EMCY_USR *usr);
 
 /*! \brief CLEAR EMCY ERROR
 *
@@ -191,7 +191,7 @@ void COEmcySet(CO_EMCY *emcy, uint8_t err, CO_EMCY_USR *usr);
 * \param err
 *    EMCY error identifier in User EMCY table
 */
-void COEmcyClr(CO_EMCY *emcy, uint8_t err);
+void COEmcyClr(CO_EMCY *emcy, unsigned err);
 
 /*! \brief GET EMCY ERROR STATUS
 *
@@ -207,7 +207,7 @@ void COEmcyClr(CO_EMCY *emcy, uint8_t err);
 * \retval   =1    the error was detected before
 * \retval   <0    an error is detected inside of this function
 */
-int16_t COEmcyGet(CO_EMCY *emcy, uint8_t err);
+int16_t COEmcyGet(CO_EMCY *emcy, unsigned err);
 
 /*! \brief COUNT DETECTED EMCY ERRORS
 *
@@ -295,7 +295,7 @@ int16_t COEmcyCheck(CO_EMCY *emcy);
 * \retval  =0    this error is not present
 * \retval  =1    the error is already detected
 */
-int16_t COEmcyGetErr(CO_EMCY *emcy, uint8_t err);
+int16_t COEmcyGetErr(CO_EMCY *emcy, unsigned err);
 
 /*! \brief  SET INTERNAL ERROR STATE
 *
@@ -317,7 +317,7 @@ int16_t COEmcyGetErr(CO_EMCY *emcy, uint8_t err);
 * \retval  =0    error state is unchanged
 * \retval  =1    the error state has changed
 */
-int16_t COEmcySetErr(CO_EMCY *emcy, uint8_t err, uint8_t state);
+int16_t COEmcySetErr(CO_EMCY *emcy, unsigned err, uint8_t state);
     
 /*! \brief  SEND EMCY MESSAGE
 *
@@ -339,7 +339,7 @@ int16_t COEmcySetErr(CO_EMCY *emcy, uint8_t err, uint8_t state);
 *    error state (=0: no error, !=0: error)
 */
 void COEmcySend(CO_EMCY     *emcy,
-                uint8_t      err,
+                unsigned     err,
                 CO_EMCY_USR *usr,
                 uint8_t      state);
 
@@ -364,7 +364,7 @@ void COEmcySend(CO_EMCY     *emcy,
 *    error state (=0: no error, !=0: error)
 */
 void COEmcyUpdate(CO_EMCY     *emcy,
-                  uint8_t      err,
+                  unsigned     err,
                   CO_EMCY_USR *usr,
                   uint8_t      state);
 
@@ -406,7 +406,7 @@ void COEmcyHistInit(CO_EMCY *emcy);
 * \param usr
 *    manufacturer specific fields in EMCY message and/or EMCY message
 */
-void COEmcyHistAdd(CO_EMCY *emcy, uint8_t err, CO_EMCY_USR *usr);
+void COEmcyHistAdd(CO_EMCY *emcy, unsigned err, CO_EMCY_USR *usr);
 
 /*! \brief EMCY OBJECT READ ACCESS
 *

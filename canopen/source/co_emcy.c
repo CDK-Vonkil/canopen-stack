@@ -34,7 +34,7 @@ const CO_OBJ_TYPE COTEmcy = { 0, 0, COTypeEmcyRead, COTypeEmcyWrite };
 /*
 * see function definition
 */
-void COEmcySet(CO_EMCY *emcy, uint8_t err, CO_EMCY_USR *usr)
+void COEmcySet(CO_EMCY *emcy, unsigned err, CO_EMCY_USR *usr)
 {
     int16_t chk;
     int16_t change;
@@ -54,7 +54,7 @@ void COEmcySet(CO_EMCY *emcy, uint8_t err, CO_EMCY_USR *usr)
 /*
 * see function definition
 */
-void COEmcyClr(CO_EMCY *emcy, uint8_t err)
+void COEmcyClr(CO_EMCY *emcy, unsigned err)
 {
     int16_t chk;
     int16_t change;
@@ -74,7 +74,7 @@ void COEmcyClr(CO_EMCY *emcy, uint8_t err)
 /*
 * see function definition
 */
-int16_t COEmcyGet(CO_EMCY *emcy, uint8_t err)
+int16_t COEmcyGet(CO_EMCY *emcy, unsigned err)
 {
     int16_t chk;
     int16_t cur;
@@ -116,9 +116,9 @@ int16_t COEmcyCnt(CO_EMCY *emcy)
 */
 void COEmcyReset(CO_EMCY *emcy, uint8_t silent)
 {
-    int16_t change;
-    int16_t chk;
-    uint8_t n;
+    int16_t  change;
+    int16_t  chk;
+    unsigned n;
 
     chk = COEmcyCheck(emcy);
     if (chk < 0) {
@@ -254,7 +254,7 @@ int16_t COEmcyCheck(CO_EMCY *emcy)
 /*
 * see function definition
 */
-int16_t COEmcyGetErr(CO_EMCY *emcy, uint8_t err)
+int16_t COEmcyGetErr(CO_EMCY *emcy, unsigned err)
 {
     uint8_t result;
     uint8_t byte;
@@ -278,7 +278,7 @@ int16_t COEmcyGetErr(CO_EMCY *emcy, uint8_t err)
 /*
 * see function definition
 */
-int16_t COEmcySetErr(CO_EMCY *emcy, uint8_t err, uint8_t state)
+int16_t COEmcySetErr(CO_EMCY *emcy, unsigned err, uint8_t state)
 {
     uint8_t result;
     uint8_t byte;
@@ -310,7 +310,7 @@ int16_t COEmcySetErr(CO_EMCY *emcy, uint8_t err, uint8_t state)
 /*
 * see function definition
 */
-void COEmcySend(CO_EMCY *emcy, uint8_t err, CO_EMCY_USR *usr, uint8_t state)
+void COEmcySend(CO_EMCY *emcy, unsigned err, CO_EMCY_USR *usr, uint8_t state)
 {
     CO_IF_FRM    frm; 
     CO_NODE     *node;
@@ -353,7 +353,7 @@ void COEmcySend(CO_EMCY *emcy, uint8_t err, CO_EMCY_USR *usr, uint8_t state)
 /*
 * see function definition
 */
-void COEmcyUpdate(CO_EMCY *emcy, uint8_t err, CO_EMCY_USR *usr, uint8_t state)
+void COEmcyUpdate(CO_EMCY *emcy, unsigned err, CO_EMCY_USR *usr, uint8_t state)
 {
     CO_DICT  *dir;
     uint8_t  regbit;
@@ -434,7 +434,7 @@ void COEmcyHistInit(CO_EMCY *emcy)
 /*
 * see function definition
 */
-void COEmcyHistAdd(CO_EMCY *emcy, uint8_t err, CO_EMCY_USR *usr)
+void COEmcyHistAdd(CO_EMCY *emcy, unsigned err, CO_EMCY_USR *usr)
 {
     CO_NODE *node;
     CO_DICT  *cod;
